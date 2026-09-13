@@ -1,0 +1,63 @@
+name: Deploy frontend to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  # Lets you trigger a redeploy manually from the Actions tab without a new commit
+  workflow_dispatch:
+
+# Only one Pages deployment at a time; a newer push cancels an in-flight one
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # VITE_API_BASE_URL is baked into the static bundle at build time.
+        # Set it as a repository variable (Settings -> Secrets and variables
+        # -> Actions -> Variables) pointing at your deployed backend, e.g.
+        # https://your-backend.onrender.com. If it's unset, the frontend
+        # falls back to http://127.0.0.1:8000, which only works when you
+        # (not a visitor) are running the backend locally.
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload build output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

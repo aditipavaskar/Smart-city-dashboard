@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #223252;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card {
+  @apply bg-panel border border-border rounded-xl p-4 shadow-lg shadow-black/20;
+}
+
+.badge {
+  @apply text-xs font-semibold px-2 py-0.5 rounded-full;
+}
+
+.badge-critical {
+  @apply bg-critical/20 text-critical border border-critical/40;
+}
+
+.badge-warning {
+  @apply bg-warn/20 text-warn border border-warn/40;
+}
+
+.badge-ok {
+  @apply bg-good/20 text-good border border-good/40;
+}
+
+.pulse-dot {
+  @apply inline-block w-2 h-2 rounded-full bg-accent;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}

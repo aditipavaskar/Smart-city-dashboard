@@ -1,0 +1,7 @@
+[
+  {"id": "downtown", "name": "Downtown", "lat": 19.076, "lng": 72.877, "population": 185000},
+  {"id": "harbor", "name": "Harbor District", "lat": 19.045, "lng": 72.911, "population": 92000},
+  {"id": "tech_park", "name": "Tech Park", "lat": 19.119, "lng": 72.905, "population": 64000},
+  {"id": "old_town", "name": "Old Town", "lat": 19.033, "lng": 72.845, "population": 138000},
+  {"id": "suburbs_north", "name": "North Suburbs", "lat": 19.205, "lng": 72.861, "population": 210000}
+]
